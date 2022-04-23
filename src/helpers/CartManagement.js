@@ -15,7 +15,7 @@ let addToCart = (id, qty, unitPrice) => {
         }
         cart.items.push(item)
     }
-    localStorage.setItem("cart", JSON.stringify(cart))
+    localStorage.setItem("cart", JSON.stringify(cart)) 
 }
 
 // consider this as a cart structure

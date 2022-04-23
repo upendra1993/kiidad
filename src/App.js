@@ -1,10 +1,10 @@
 import React, { Suspense, useState, lazy } from "react";
 import { Link } from "react-router-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import WebWorker from "react-webworker"
+import WebWorker from "react-webworker";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
-import "bootstrap/dist/css/custom.scss";
+// import "bootstrap/dist/css/custom.scss";
 import TopMenu from "./components/TopMenu";
 import Header from "./components/Header";
 import Footer from "./components/Footer";

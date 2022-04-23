@@ -27,6 +27,8 @@ const ShippingReturns = lazy(() =>
 );
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 
+let availability_status = '';
+
 class ProductDetailView extends Component {
 
   
@@ -54,8 +56,19 @@ class ProductDetailView extends Component {
     const Product_details = res.data;
     // console.log('befor set url',Product_details);
     this.setState({Product_details : res.data});
-    // console.log('after set url',this.state.Product_details);
+    console.log('after set url',this.state.Product_details);
     })
+    console.log(this.state.Product_details);
+
+    
+    if(this.state.Product_details.availability = 1){
+      availability_status = 'In stock';
+    }
+    else{
+      availability_status = 'Out of stock';
+    }
+
+    
   }
   
   render() {
@@ -107,7 +120,13 @@ class ProductDetailView extends Component {
                 </div> */}
                 <dl className="row small mb-3">
                   <dt className="col-sm-3">Availability</dt>
-                  <dd className="col-sm-9">In stock</dd>
+                  
+                  
+                    <dd className="col-sm-9">{availability_status}</dd>
+                    {/* {console.log(this.state.availability_status)} */}
+                    
+                  
+                  
                   <dt className="col-sm-3">Sold by</dt>
                   <dd className="col-sm-9">Authorised Store</dd>
                   <dt className="col-sm-3">Size</dt>
@@ -170,7 +189,7 @@ class ProductDetailView extends Component {
                       </label>
                     </div>
                   </dd>
-                  <dt className="col-sm-3">Color</dt>
+                  {/* <dt className="col-sm-3">Color</dt>
                   <dd className="col-sm-9">
                     <button className="btn btn-sm btn-primary p-2 mr-2"></button>
                     <button className="btn btn-sm btn-secondary p-2 mr-2"></button>
@@ -179,15 +198,15 @@ class ProductDetailView extends Component {
                     <button className="btn btn-sm btn-warning p-2 mr-2"></button>
                     <button className="btn btn-sm btn-info p-2 mr-2"></button>
                     <button className="btn btn-sm btn-dark p-2 mr-2"></button>
-                  </dd>
+                  </dd> */}
                 </dl>
 
                 <div className="mb-3">
-                  <span className="font-weight-bold h5 mr-2">$1900</span>
-                  <del className="small text-muted mr-2">$2000</del>
-                  <span className="rounded p-1 bg-warning  mr-2 small">
+                  <span className="font-weight-bold h5 mr-2">Rs {this.state.Product_details.price} .00</span>
+                  <del className="small text-muted mr-2">Rs 2000 .00</del>
+                  {/* <span className="rounded p-1 bg-warning  mr-2 small">
                     -$100
-                  </span>
+                  </span> */}
                 </div>
                 <div className="mb-3">
                   <div className="d-inline float-left mr-2">
