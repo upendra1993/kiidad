@@ -6,10 +6,8 @@ import renderFormGroupField from "../../helpers/renderFormGroupField";
 import {
   required,
   maxLength20,
-  minLength8,
-  maxLengthMobileNo,
-  minLengthMobileNo,
-  digit,
+  minLength4,
+  email,
 } from "../../helpers/validation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,16 +27,14 @@ const SignInForm = (props) => {
       noValidate
     >
       <Field
-        name="mobileNo"
-        type="number"
-        label="Mobile no"
+        name="email"
+        type="email"
+        label="Email"
         component={renderFormGroupField}
-        placeholder="Mobile no without country code"
+        placeholder="sample@abc.com"
         icon={IconPhoneFill}
-        validate={[required, maxLengthMobileNo, minLengthMobileNo, digit]}
+        validate={[required, email]}
         required={true}
-        max="999999999999999"
-        min="9999"
         className="mb-3"
       />
       <Field
@@ -48,7 +44,7 @@ const SignInForm = (props) => {
         component={renderFormGroupField}
         placeholder="******"
         icon={IconShieldLockFill}
-        validate={[required, maxLength20, minLength8]}
+        validate={[required, maxLength20, minLength4]}
         required={true}
         maxLength="20"
         minLength="8"

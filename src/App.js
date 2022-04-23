@@ -5,6 +5,7 @@ import WebWorker from "react-webworker";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 // import "bootstrap/dist/css/custom.scss";
+import {Toaster} from "react-hot-toast";
 import TopMenu from "./components/TopMenu";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -105,6 +106,7 @@ function App() {
         <Footer />
         
       </React.Fragment>
+      <Toaster />
     </BrowserRouter>
   );
 }
