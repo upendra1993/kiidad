@@ -15,7 +15,7 @@ const CouponApplyForm = lazy(() =>
 
 const cartItemsLoad = loadCart();
 
-console.log(cartItemsLoad);
+
 
 class CartView extends Component {
   
@@ -28,7 +28,9 @@ class CartView extends Component {
   };
  
   render() {
-    const {items} = loadCart();
+    // const {items} = loadCart();
+
+    console.log('test console');
     return (
       <React.Fragment>
         <div className="bg-secondary border-top p-4 text-white mb-3">
@@ -36,7 +38,7 @@ class CartView extends Component {
         </div>
 
       
-
+        
         <div className="container mb-3">
           <div className="row">
             <div className="col-md-9">
@@ -283,6 +285,7 @@ class CartView extends Component {
 //   </aside>
 //  );
 // }
+export default CartView;
 
 
  

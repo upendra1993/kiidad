@@ -28,7 +28,7 @@ const MyProfileView = lazy(() => import("./views/account/MyProfile"));
 const ProductListView = lazy(() => import("./views/product/List"));
 const ProductDetailView = lazy(() => import("./views/product/Detail"));
 const StarZoneView = lazy(() => import("./views/product/StarZone"));
-const CartView = lazy(() => import("./views/cart/Cart"));
+const CartView = lazy(() => import("./views/cart/CartView"));
 const CheckoutView = lazy(() => import("./views/cart/Checkout"));
 const DocumentationView = lazy(() => import("./views/Documentation"));
 const NotFoundView = lazy(() => import("./views/pages/404"));
@@ -87,7 +87,7 @@ function App() {
             <Route exact path="/category" component={ProductListView} />
             <Route path="/product/:id" render={(props)=> <ProductDetailView {...props} /> }  />
             <Route exact path="/star/zone" component={StarZoneView} />
-            <Route exact path="/cart" />
+            <Route exact path="/cart" component={CartView} />
             <Route exact path="/checkout" component={CheckoutView} />
             <Route exact path="/documentation" component={DocumentationView} />
             <Route exact path="/contact-us" component={ContactUsView} />
