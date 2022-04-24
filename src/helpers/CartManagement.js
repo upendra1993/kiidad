@@ -1,7 +1,7 @@
 let addToCart = (id, qty, unitPrice) => {
     let cart = JSON.parse(localStorage.getItem("cart"))
     cart = createCartIfNotExists(cart);
-    let itemExists = cart.items.some((item)=> item.id === id)
+    let itemExists = cart.items.some((item) => item.id === id)
     if (itemExists) {
         let itemIndex = cart.items.findIndex(itm => itm.id === id)
         let item = cart.items[itemIndex]
@@ -15,7 +15,24 @@ let addToCart = (id, qty, unitPrice) => {
         }
         cart.items.push(item)
     }
-    localStorage.setItem("cart", JSON.stringify(cart)) 
+    localStorage.setItem("cart", JSON.stringify(cart))
+}
+
+let reduceFromCart = (id, qty) => {
+    let cart = JSON.parse(localStorage.getItem("cart"))
+    cart = createCartIfNotExists(cart);
+    let itemExists = cart.items.some((item) => item.id === id)
+    if (itemExists) {
+        let itemIndex = cart.items.findIndex(itm => itm.id === id)
+        let item = cart.items[itemIndex]
+        if (item.qty <= qty) {
+            cart.items.splice(itemIndex, 1);
+        } else {
+            item.qty -= qty
+            cart.items[itemIndex] = item
+        }
+    }
+    localStorage.setItem("cart", JSON.stringify(cart))
 }
 
 // consider this as a cart structure
@@ -41,5 +58,6 @@ let loadCart = () => {
 export {
     addToCart,
     createCartIfNotExists,
-    loadCart
+    loadCart,
+    reduceFromCart
 }
