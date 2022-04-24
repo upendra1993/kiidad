@@ -8,7 +8,7 @@ import {ReactComponent as IconTruck} from "bootstrap-icons/icons/truck.svg";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {loadCart, addToCart, reduceFromCart} from "../../helpers/CartManagement";
-import axios from "axios";
+import axios from "../../helpers/axios";
 
 const CouponApplyForm = lazy(() =>
     import("../../components/others/CouponApplyForm")
@@ -51,7 +51,7 @@ class CartView extends Component {
             let itemId = item.id;
             console.log(`id ${itemId}`)
             try {
-                let {data} = await axios.get(`http://dev.kiidad.com/api/products/get-by-id/${itemId}`);
+                let {data} = await axios.get(`products/get-by-id/${itemId}`);
                 console.log('data', data)
                 let itemFull = {...data, ...item, total: data.price * item.qty};
                 console.log('item full', itemFull)
