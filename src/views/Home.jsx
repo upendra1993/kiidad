@@ -1,6 +1,6 @@
 import React, { lazy, Component } from "react";
 
-import axios from "axios";
+import axios from "../helpers/axios";
 import { Link } from "react-router-dom";
 // import { link45, file, check2all } from "../npm/icon";
 import { data } from "../data";
