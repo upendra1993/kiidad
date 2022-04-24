@@ -8,29 +8,64 @@ import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { loadCart } from "../../helpers/CartManagement";
+import axios from "axios";
 
 const CouponApplyForm = lazy(() =>
   import("../../components/others/CouponApplyForm")
 );
 
-const cartItemsLoad = loadCart();
+const cartitemsload = loadCart();
+
 
 
 
 class CartView extends Component {
+
+  
+
+  
   
   constructor(props) {
     super();
-    this.state = {};
+    this.state = {
+      cartitem_all_detais:{}
+    };
   }
+
+
+  componentDidMount(){
+    cartitemsload.items.map(cartproductitem=>{
+      const cartproductitem_id = cartproductitem.id;
+      // console.log(cartproductitem_id);
+      let cartproductitem_qty = [cartproductitem];
+      // console.log(cartproductitem_qty);
+      const cartproduct_url = `http://dev.kiidad.com/api/products/get-by-id/${ cartproductitem_id}`;
+      axios.get(cartproduct_url).then(res => {
+        let cartproduct_details = res.data;
+        // console.log(cartproduct_details);
+         let cartitem_all_detais = {...cartproduct_details, ...cartproductitem_qty};
+          this.setState({cartitem_all_detais})
+        // console.log(cartitem_all_detais[0].qty);
+      });
+      
+      // const cartitem_all_details = '';
+     
+      
+    })
+  
+    
+    
+    }
+
   onSubmitApplyCouponCode = async (values) => {
     alert(JSON.stringify(values));
   };
  
   render() {
     // const {items} = loadCart();
-
-    console.log('test console');
+    // console.log(cartitemsload.items[0].id);
+    // console.log(cartitemsload);
+  
     return (
       <React.Fragment>
         <div className="bg-secondary border-top p-4 text-white mb-3">
@@ -38,6 +73,7 @@ class CartView extends Component {
         </div>
 
       
+       
         
         <div className="container mb-3">
           <div className="row">
@@ -57,8 +93,11 @@ class CartView extends Component {
                         <th scope="col" className="text-right" width={130}></th>
                       </tr>
                     </thead>
+                    
                     <tbody>
-                      <tr>
+                    { cartitemsload.items.map(cartitem => 
+      
+                      <tr key={cartitem.id}>
                         <td>
                           <div className="row">
                             <div className="col-3 d-none d-md-block">
@@ -93,6 +132,7 @@ class CartView extends Component {
                               type="text"
                               className="form-control"
                               defaultValue="1"
+                              value={cartitem.qty}
                             />
                             <button
                               className="btn btn-primary text-white"
@@ -103,9 +143,9 @@ class CartView extends Component {
                           </div>
                         </td>
                         <td>
-                          <var className="price">$237.00</var>
+                          <var className="price">Rs. 237.00</var>
                           <small className="d-block text-muted">
-                            $79.00 each
+                            Rs. 79.00 each
                           </small>
                         </td>
                         <td className="text-right">
@@ -116,8 +156,9 @@ class CartView extends Component {
                             <IconTrash className="i-va" />
                           </button>
                         </td>
-                                        </tr>
-                                        <tr>
+                      </tr>
+                            )}               
+                        <tr>
                         <td>
                           <div className="row">
                             <div className="col-3 d-none d-md-block">
@@ -162,9 +203,9 @@ class CartView extends Component {
                           </div>
                         </td>
                         <td>
-                          <var className="price">$237.00</var>
+                          <var className="price">Rs. 237.00</var>
                           <small className="d-block text-muted">
-                            $79.00 each
+                            Rs. 79.00 each
                           </small>
                         </td>
                         <td className="text-right">
@@ -205,20 +246,20 @@ class CartView extends Component {
                 <div className="card-body">
                   <dl className="row border-bottom">
                     <dt className="col-6">Total price:</dt>
-                    <dd className="col-6 text-right">$1,568</dd>
+                    <dd className="col-6 text-right">Rs. 1,568</dd>
 
                     <dt className="col-6 text-success">Discount:</dt>
-                    <dd className="col-6 text-success text-right">-$58</dd>
+                    <dd className="col-6 text-success text-right">-Rs. 58</dd>
                     <dt className="col-6 text-success">
                       Coupon:{" "}
                       <span className="small text-muted">EXAMPLECODE</span>{" "}
                     </dt>
-                    <dd className="col-6 text-success text-right">-$68</dd>
+                    <dd className="col-6 text-success text-right">-Rs. 68</dd>
                   </dl>
                   <dl className="row">
                     <dt className="col-6">Total:</dt>
                     <dd className="col-6 text-right  h5">
-                      <strong>$1,350</strong>
+                      <strong>Rs. 1,350</strong>
                     </dd>
                   </dl>
                   <hr />

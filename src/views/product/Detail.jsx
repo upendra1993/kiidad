@@ -11,6 +11,8 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { data } from "../../data";
+import { addToCart, createCartIfNotExists } from "../../../src/helpers/CartManagement";
+
 const CardFeaturedProduct = lazy(() =>
   import("../../components/card/CardFeaturedProduct")
 );
@@ -28,6 +30,11 @@ const ShippingReturns = lazy(() =>
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 
 let availability_status = '';
+
+const handleAddToCart = (id, qty, unitPrice) => {
+  // let cart = JSON.parse(localStorage.getItem("cart"))
+  addToCart(id, qty, unitPrice)
+}
 
 class ProductDetailView extends Component {
 
@@ -234,6 +241,7 @@ class ProductDetailView extends Component {
                     type="button"
                     className="btn btn-sm btn-primary mr-2"
                     title="Add to cart"
+                    onClick={() => handleAddToCart(this.state.Product_details.id, 1, this.state.Product_details.originPrice)}
                   >
                     <FontAwesomeIcon icon={faCartPlus} /> Add to cart
                   </button>
