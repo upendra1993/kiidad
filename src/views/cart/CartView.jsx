@@ -14,16 +14,27 @@ const CouponApplyForm = lazy(() =>
     import("../../components/others/CouponApplyForm")
 );
 
+
 class CartView extends Component {
 
 
+    handleSubmit = event =>{
+        event.preventDefault();
+        console.log('submit working')
+    }
+    
     constructor(props) {
         super();
         this.state = {
             cartitem_all_detais: [],
-            subTotal: 0
+            subTotal: 0,
+           
+
         };
     }
+
+    
+
 
     handleAdd = async (id, price) => {
         addToCart(id, 1, price)
@@ -63,12 +74,37 @@ class CartView extends Component {
         }
         this.setState({cartitem_all_detais: finalItems})
         this.setState({subTotal: subTotal})
-        console.log("state", finalItems);
+        // console.log("state", finalItems);
     }
 
     onSubmitApplyCouponCode = async (values) => {
         alert(JSON.stringify(values));
     };
+
+
+    hadleSetcartvalue = () =>{
+        let finalItems = this.state.cartitem_all_detais;
+        let products = finalItems.map(item => ({productId : item.id, qty: item.qty, vendorPriceUnit: item.price}))
+        // console.log(products);
+        const transactions  = {
+            total : this.state.subTotal,
+            products : products
+
+        };
+        // alert(netTotal);
+
+        // axios.post(`http://dev.kiidad.com/api/transactions/create`, { transactions })
+        // .then(res => {
+        //     console.log(res);
+        //     console.log(res.data);
+        // })
+
+        axios.post(`http://dev.kiidad.com/api/transactions/create`,transactions).then((response) =>{
+            console.log(response);
+        })
+            
+        
+    }
 
     render() {
 
@@ -78,6 +114,8 @@ class CartView extends Component {
                 currency: 'LKR'
             })
         }
+
+
 
         return (
             <React.Fragment>
@@ -95,11 +133,16 @@ class CartView extends Component {
                                         <thead className="text-muted">
                                         <tr className="small text-uppercase">
                                             <th scope="col">Product</th>
+                                            
                                             <th scope="col" width={120}>
                                                 Quantity
                                             </th>
+                                           
                                             <th scope="col" width={150}>
                                                 Price
+                                            </th>
+                                            <th scope="col" width={150}>
+                                              vendors price
                                             </th>
                                             <th scope="col" className="text-right" width={130}></th>
                                         </tr>
@@ -161,6 +204,14 @@ class CartView extends Component {
                                                         Rs. {cartitem.price} each
                                                     </small>
                                                 </td>
+                                                <td>
+                                                <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            defaultValue="enter profit"
+                                                            value=""
+                                                        />
+                                                </td>
                                                 <td className="text-right">
                                                     <button className="btn btn-sm btn-outline-secondary mr-2">
                                                         <IconHeartFill className="i-va"/>
@@ -175,9 +226,11 @@ class CartView extends Component {
                                     </table>
                                 </div>
                                 <div className="card-footer">
+
                                     <Link to="/checkout" className="btn btn-primary float-right">
                                         Make Purchase <IconChevronRight className="i-va"/>
                                     </Link>
+                                    <button type="submit" onClick={this.hadleSetcartvalue}>Add</button>
                                     <Link to="/" className="btn btn-secondary">
                                         <IconChevronLeft className="i-va"/> Continue shopping
                                     </Link>
@@ -214,6 +267,11 @@ class CartView extends Component {
                                         <dt className="col-6">Total:</dt>
                                         <dd className="col-6 text-right  h5">
                                             <strong>Rs. {this.state.subTotal}</strong>
+                                            <input
+                                            type = "hidden"
+                                            name = "subtotalval"
+                                            value= {this.state.subTotal}
+                                            />
                                         </dd>
                                     </dl>
                                     <hr/>
