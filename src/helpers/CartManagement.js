@@ -55,9 +55,25 @@ let loadCart = () => {
     return cart;
 }
 
+let clearCart = () => {
+    let cart = JSON.parse(localStorage.getItem("cart"))
+    cart = createCartIfNotExists(cart);
+    cart.items = []
+    localStorage.setItem("cart", JSON.stringify(cart))
+    return cart;
+}
+
+let removeItem = (id) => {
+    let cart = JSON.parse(localStorage.getItem("cart"))
+    cart = createCartIfNotExists(cart);
+    cart.items = cart.items.filter(item => item.id !== id)
+}
+
 export {
     addToCart,
     createCartIfNotExists,
     loadCart,
+    clearCart,
+    removeItem,
     reduceFromCart
 }
