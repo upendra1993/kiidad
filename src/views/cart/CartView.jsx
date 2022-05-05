@@ -7,7 +7,8 @@ import {ReactComponent as IconChevronLeft} from "bootstrap-icons/icons/chevron-l
 import {ReactComponent as IconTruck} from "bootstrap-icons/icons/truck.svg";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
-import {loadCart, addToCart, reduceFromCart} from "../../helpers/CartManagement";
+import {loadCart, addToCart, reduceFromCart, clearCart, removeItem} from "../../helpers/CartManagement";
+import toast from "react-hot-toast";
 import axios from "../../helpers/axios";
 
 const CouponApplyForm = lazy(() =>
@@ -43,6 +44,11 @@ class CartView extends Component {
 
     handleReduce = async (id) => {
         reduceFromCart(id, 1);
+        await this.loadCartItems();
+    }
+
+    hadleRemove = async (id) =>{
+        removeItem(id);
         await this.loadCartItems();
     }
 
@@ -101,6 +107,10 @@ class CartView extends Component {
 
         axios.post(`http://dev.kiidad.com/api/transactions/create`,transactions).then((response) =>{
             console.log(response);
+            toast.success('Shipping Success');
+            clearCart();
+            window.location.reload();
+           
         })
             
         
@@ -216,8 +226,11 @@ class CartView extends Component {
                                                     <button className="btn btn-sm btn-outline-secondary mr-2">
                                                         <IconHeartFill className="i-va"/>
                                                     </button>
-                                                    <button className="btn btn-sm btn-outline-danger">
+                                                    <button className="btn btn-sm btn-outline-danger"
+                                                    onClick={()=> this.hadleRemove(cartitem.id)}
+                                                    >
                                                         <IconTrash className="i-va"/>
+                                                        
                                                     </button>
                                                 </td>
                                             </tr>
@@ -227,13 +240,13 @@ class CartView extends Component {
                                 </div>
                                 <div className="card-footer">
 
-                                    <Link to="/checkout" className="btn btn-primary float-right">
+                                    {/* <Link to="/checkout" className="btn btn-primary float-right">
                                         Make Purchase <IconChevronRight className="i-va"/>
-                                    </Link>
-                                    <button type="submit" onClick={this.hadleSetcartvalue}>Add</button>
-                                    <Link to="/" className="btn btn-secondary">
+                                    </Link> */}
+                                    <button type="submit" className="btn btn-primary float-right" onClick={this.hadleSetcartvalue}>Continue shopping</button>
+                                    {/* <Link to="/" className="btn btn-secondary">
                                         <IconChevronLeft className="i-va"/> Continue shopping
-                                    </Link>
+                                    </Link> */}
                                 </div>
                             </div>
                             <div className="alert alert-success mt-3">
@@ -244,14 +257,14 @@ class CartView extends Component {
                             </div>
                         </div>
                         <div className="col-md-3">
-                            <div className="card mb-3">
+                            {/* <div className="card mb-3">
                                 <div className="card-body">
                                     <CouponApplyForm onSubmit={this.onSubmitApplyCouponCode}/>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="card">
                                 <div className="card-body">
-                                    <dl className="row border-bottom">
+                                    {/* <dl className="row border-bottom">
                                         <dt className="col-6">Total price:</dt>
                                         <dd className="col-6 text-right">Rs. 1,568</dd>
 
@@ -262,7 +275,7 @@ class CartView extends Component {
                                             <span className="small text-muted">EXAMPLECODE</span>{" "}
                                         </dt>
                                         <dd className="col-6 text-success text-right">-Rs. 68</dd>
-                                    </dl>
+                                    </dl> */}
                                     <dl className="row">
                                         <dt className="col-6">Total:</dt>
                                         <dd className="col-6 text-right  h5">
@@ -287,7 +300,7 @@ class CartView extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="bg-light border-top p-4">
+                {/* <div className="bg-light border-top p-4">
                     <div className="container">
                         <h6>Payment and refund policy</h6>
                         <p>
@@ -309,7 +322,7 @@ class CartView extends Component {
                             sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </p>
                     </div>
-                </div>
+                </div> */}
             </React.Fragment>
         );
     }
