@@ -27,7 +27,7 @@ class HomeView extends Component {
 }
 
 componentDidMount(){
-    axios.get('http://dev.kiidad.com/api/products/get-all')
+    axios.get('http://dev.kiidad.com/api/products/get-all-available')
     .then(res => {
         
         const Products = res.data;

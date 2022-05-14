@@ -18,7 +18,9 @@ const CardProductGrid = (props) => {
   let Product_url = `/product/${Product_id}`;
   return (
     <div className="card product-grid-view">
-      <img src={image_url} className="card-img-top" alt="..." />
+      <Link to={Product_url} className="text-decoration-none">
+          <img src={image_url} className="img-fluid" alt="..."/> 
+      </Link>
       {product.isNew && (
         <span className="badge bg-success position-absolute mt-2 ml-2">
           New
@@ -48,9 +50,9 @@ const CardProductGrid = (props) => {
           </Link>
         </h6>
         <div className="my-2">
-          <span className="font-weight-bold h5">Rs {product.price}</span>
+          <span className="font-weight-bold h5">Rs {product.price}.00</span>
           {product.originPrice > 0 && (
-            <del className="small text-muted ml-2">Rs {product.originPrice}</del>
+            <del className="small text-muted ml-2">Rs {product.originPrice}.00</del>
           )}
           <span className="ml-2">
             {Array.from({ length: product.star }, (_, key) => (
@@ -67,13 +69,13 @@ const CardProductGrid = (props) => {
           >
             <FontAwesomeIcon icon={faCartPlus} />
           </button>
-          <button
+          {/* <button
             type="button"
             className="btn btn-sm btn-outline-secondary"
             title="Add to wishlist"
           >
             <FontAwesomeIcon icon={faHeart} />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

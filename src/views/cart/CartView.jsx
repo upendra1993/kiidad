@@ -29,6 +29,8 @@ class CartView extends Component {
         this.state = {
             cartitem_all_detais: [],
             subTotal: 0,
+            imageUrl :`http://dev.kiidad.com/public/products/img/`,
+            productLinkUrl : `/product/`
            
 
         };
@@ -59,23 +61,24 @@ class CartView extends Component {
 
     loadCartItems = async () => {
         const cartitemsload = loadCart();
+        console.log(loadCart());
         let items = cartitemsload.items;
-        console.log('items', items);
+        // console.log('items', items);
         let finalItems = [];
         let subTotal = 0;
         for (const item of items) {
-            console.log('item ', item);
+            // console.log('item ', item);
             let itemId = item.id;
-            console.log(`id ${itemId}`)
+            // console.log(`id ${itemId}`)
             try {
                 let {data} = await axios.get(`products/get-by-id/${itemId}`);
-                console.log('data', data)
+                // console.log('data', data)
                 let itemFull = {...data, ...item, total: data.price * item.qty};
-                console.log('item full', itemFull)
+                // console.log('item full', itemFull)
                 finalItems.push(itemFull)
                 subTotal += (data.price * item.qty);
             } catch (e) {
-                console.log("error fetching data", e);
+                // console.log("error fetching data", e);
             }
         }
         this.setState({cartitem_all_detais: finalItems})
@@ -166,14 +169,14 @@ class CartView extends Component {
                                                     <div className="row">
                                                         <div className="col-3 d-none d-md-block">
                                                             <img
-                                                                src="../../images/products/tshirt_red_480x400.webp"
+                                                                src={this.state.imageUrl+cartitem.images[0].url}
                                                                 width="80"
-                                                                alt="..."
+                                                                alt={cartitem.images[0].url}
                                                             />
                                                         </div>
                                                         <div className="col">
                                                             <Link
-                                                                to="/product/detail"
+                                                                to={this.state.productLinkUrl+cartitem.id}
                                                                 className="text-decoration-none"
                                                             >
                                                                 {cartitem.name}
@@ -218,14 +221,14 @@ class CartView extends Component {
                                                 <input
                                                             type="text"
                                                             className="form-control"
-                                                            defaultValue="enter profit"
-                                                            value=""
+                                                            placeholder="enter profit"
+                                                            // value=""
                                                         />
                                                 </td>
                                                 <td className="text-right">
-                                                    <button className="btn btn-sm btn-outline-secondary mr-2">
+                                                    {/* <button className="btn btn-sm btn-outline-secondary mr-2">
                                                         <IconHeartFill className="i-va"/>
-                                                    </button>
+                                                    </button> */}
                                                     <button className="btn btn-sm btn-outline-danger"
                                                     onClick={()=> this.hadleRemove(cartitem.id)}
                                                     >
@@ -279,7 +282,7 @@ class CartView extends Component {
                                     <dl className="row">
                                         <dt className="col-6">Total:</dt>
                                         <dd className="col-6 text-right  h5">
-                                            <strong>Rs. {this.state.subTotal}</strong>
+                                            <strong>Rs. {this.state.subTotal} .00</strong>
                                             <input
                                             type = "hidden"
                                             name = "subtotalval"

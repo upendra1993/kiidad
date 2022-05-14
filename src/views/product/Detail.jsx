@@ -3,6 +3,7 @@ import axios from "axios";
 import { useHistory, useParams } from 'react-router-dom'
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import toast from "react-hot-toast";
 import {
   faCartPlus,
   faHeart,
@@ -11,7 +12,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { data } from "../../data";
-import { addToCart, createCartIfNotExists } from "../../../src/helpers/CartManagement";
+import {loadCart, addToCart, reduceFromCart, clearCart, removeItem} from "../../helpers/CartManagement";
 
 const CardFeaturedProduct = lazy(() =>
   import("../../components/card/CardFeaturedProduct")
@@ -31,80 +32,129 @@ const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 
 let availability_status = '';
 
+const ProductDetails = '';
+
+
+
 const handleAddToCart = (id, qty, unitPrice) => {
   // let cart = JSON.parse(localStorage.getItem("cart"))
   addToCart(id, qty, unitPrice)
+  toast.success('Tshirt have been added your cart')
 }
 
 class ProductDetailView extends Component {
 
+  handleAdd = async (id, price) => {
+    addToCart(id, 1, price)
+    await this.loadCartItems();
+  }
   
+  handleReduce = async (id) => {
+    reduceFromCart(id, 1);
+    await this.loadCartItems();
+  }
+
+  async componentDidMount() {
+    await this.loadCartItems();
+}
+ 
   constructor(props) {
     super();
     const Product_id = props.match.params;
-   
     this.state = {
       Product_id:{},
-      Product_details: {}
+      Product_details:[],
+      cartitemsload:[],
+      Cart_qty:1
     }
     
   }
+
+  
+
+
+    
+  componentDidMount(){
+    const  P_id = this.props.match.params;
+    let Product_id_no = (P_id.id) > 5 ? P_id.id : 1 ; 
+    let Product_url = `http://dev.kiidad.com/api/products/get-by-id/${Product_id_no}`;
+    
+    axios.get(Product_url).then(res =>{
+    this.setState({ Product_details : res.data });
+    // console.log(this.state.Product_details );
+    let FirstImagePathUrl =`http://dev.kiidad.com/public/products/img/${this.state.Product_details.images[0].url}`;
+    // console.log(this.state.Product_details.images[0].url);
+    this.setState({FirstImagePathUrl})
+      // console.log(FirstImagePathUrl);
+
+    let SecoundImagUrl = `http://dev.kiidad.com/public/products/img/${this.state.Product_details.images[1].url}`;
+    this.setState({ SecoundImagUrl })
+
+    let TherdImageUrl =`http://dev.kiidad.com/public/products/img/${this.state.Product_details.images[2].url}`;
+    this.setState({ TherdImageUrl})
+    })
     
   
 
-  componentDidMount(){
-    const  P_id = this.props.match.params;
-    // console.log(P_id);
-    let Product_id_no = (P_id.id) > 5 ? P_id.id : 1 ; 
-    // console.log(Product_id_no);
-    let Product_url = `http://dev.kiidad.com/api/products/get-by-id/${ Product_id_no}`;
-    // console.log(Product_url);
-    axios.get(Product_url).then(res =>{
-    const Product_details = res.data;
-    // console.log('befor set url',Product_details);
-    this.setState({Product_details : res.data});
-    console.log('after set url',this.state.Product_details);
-    })
-    console.log(this.state.Product_details);
-
-    
     if(this.state.Product_details.availability = 1){
       availability_status = 'In stock';
     }
     else{
       availability_status = 'Out of stock';
     }
-
+    
     
   }
+
+
+
+  loadCartItems = async () =>{
+   
+    let cartitems = loadCart();
+    let cartitemsload = cartitems.items;
+    // console.log(cartitemsload);
+
+
+    for(const cartitemsloaditems of cartitemsload ){
+      // console.log(cartitemsloaditems);
+      if(cartitemsloaditems.id == this.state.Product_details.id){
+        // console.log(this.state.Product_details.id);
+        // console.log(cartitemsloaditems.id);
+        const Cart_qty = cartitemsloaditems.qty;
+        this.setState({Cart_qty})
+      }else{
+        
+      }
+    }
+
+  }
+   
+  
   
   render() {
     return (
-    
-    
-
       <div className="container-fluid mt-3">
         <div className="row">
           <div className="col-md-8">
             <div className="row mb-3">
               <div className="col-md-5 text-center">
                 <img
-                  src="../../images/products/tshirt_red_480x400.webp"
+                  src={this.state.FirstImagePathUrl}
                   className="img-fluid mb-3"
                   alt=""
                 />
                 <img
-                  src="../../images/products/tshirt_grey_480x400.webp"
+                  src={this.state.FirstImagePathUrl}
                   className="border border-secondary mr-2" width="75"
                   alt="..."
                 />
                 <img
-                  src="../../images/products/tshirt_black_480x400.webp"
+                  src={ this.state.SecoundImagUrl }
                   className="border border-secondary mr-2" width="75"
                   alt="..."
                 />
                 <img
-                  src="../../images/products/tshirt_green_480x400.webp"
+                  src={ this.state.TherdImageUrl }
                   className="border border-secondary mr-2" width="75"
                   alt="..."
                 />
@@ -144,7 +194,7 @@ class ProductDetailView extends Component {
                         type="radio"
                         name="size"
                         id="sizes"
-                        disabled
+                       
                       />
                       <label className="form-check-label" htmlFor="sizes">
                         S
@@ -156,7 +206,7 @@ class ProductDetailView extends Component {
                         type="radio"
                         name="size"
                         id="sizem"
-                        disabled
+                        
                       />
                       <label className="form-check-label" htmlFor="sizem">
                         M
@@ -221,17 +271,23 @@ class ProductDetailView extends Component {
                       <button
                         className="btn btn-primary text-white"
                         type="button"
+                        onClick={()=> this.handleReduce(this.state.Product_details.id, this.state.Product_details.price)}
                       >
                         <FontAwesomeIcon icon={faMinus} />
                       </button>
+
+                     
                       <input
                         type="text"
                         className="form-control"
                         defaultValue="1"
+                        value={this.state.Cart_qty}
+                        
                       />
                       <button
                         className="btn btn-primary text-white"
                         type="button"
+                        onClick={() => this.handleAdd(this.state.Product_details.id, this.state.Product_details.price)}
                       >
                         <FontAwesomeIcon icon={faPlus} />
                       </button>
@@ -245,20 +301,20 @@ class ProductDetailView extends Component {
                   >
                     <FontAwesomeIcon icon={faCartPlus} /> Add to cart
                   </button>
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-sm btn-warning mr-2"
                     title="Buy now"
                   >
                     <FontAwesomeIcon icon={faShoppingCart} /> Buy now
-                  </button>
-                  <button
+                  </button> */}
+                  {/* <button
                     type="button"
                     className="btn btn-sm btn-outline-secondary"
                     title="Add to wishlist"
                   >
                     <FontAwesomeIcon icon={faHeart} />
-                  </button>
+                  </button> */}
                 </div>
                 <div>
                   <p className="font-weight-bold mb-2 small">
@@ -266,10 +322,10 @@ class ProductDetailView extends Component {
                   </p>
                   <ul className="small">
                     <li>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                     {this.state.Product_details.description}
                     </li>
-                    <li>Etiam ullamcorper nibh eget faucibus dictum.</li>
-                    <li>Cras consequat felis ut vulputate porttitor.</li>
+                    
+                    
                   </ul>
                 </div>
               </div>
@@ -342,7 +398,7 @@ class ProductDetailView extends Component {
                     role="tabpanel"
                     aria-labelledby="nav-details-tab"
                   >
-                    <Details />
+                    {this.state.Product_details.description}
                   </div>
                   <div
                     className="tab-pane fade"

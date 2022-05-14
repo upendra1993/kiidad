@@ -64,22 +64,9 @@ const Header = () => {
                       <IconPersonBadgeFill /> My Profile
                     </Link>
                   </li>
-                  <li>
-                    <Link className="dropdown-item" to="/star/zone">
-                      <IconStarFill className="text-warning" /> Star Zone
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/account/orders">
-                      <IconListCheck className="text-primary" /> Orders
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/account/wishlist">
-                      <IconHeartFill className="text-danger" /> Wishlist
-                    </Link>
-                  </li>
-                  <li>
+                
+              
+                  {/* <li>
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
@@ -94,7 +81,7 @@ const Header = () => {
                   </li>
                   <li>
                     <hr className="dropdown-divider" />
-                  </li>
+                  </li> */}
                   {/* <li>
                     <Link className="dropdown-item" to="/">
                       <IconDoorClosedFill className="text-danger" /> Logout

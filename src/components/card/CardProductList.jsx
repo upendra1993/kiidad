@@ -25,7 +25,9 @@ const CardProductList = (props) => {
     <div className="card product-list-view">
       <div className="row g-0">
         <div className="col-md-3 text-center">
+        <Link to={Product_url} className="text-decoration-none">
           <img src={image_url} className="img-fluid" alt="..."/> 
+        </Link>
         </div>
         <div className="col-md-6">
           <div className="card-body">
@@ -98,13 +100,13 @@ const CardProductList = (props) => {
             >
               <FontAwesomeIcon icon={faCartPlus} />
             </button>
-            <button
+            {/* <button
               type="button"
               className="btn btn-sm btn-outline-secondary"
               title="Add to wishlist"
             >
               <FontAwesomeIcon icon={faHeart} />
-            </button>
+            </button> */}
           </div>
           </div>
         </div>

@@ -5,10 +5,14 @@ import axios from "../../helpers/axios";
 
 const SignInForm = lazy(() => import("../../components/account/SignInForm"));
 
+
 class SignInView extends Component {
+
+    
     onSubmit = async (values) => {
         try {
             let result = await axios.post('login', values);
+            // console.log(result);
             if(result.data.success) {
                 let token = result.data.token;
                 localStorage.setItem('token', token);
