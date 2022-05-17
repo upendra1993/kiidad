@@ -9,6 +9,7 @@ const CardIcon = (props) => {
         <div className="card-body">
           {props.children}
           <h6 className="card-title text-capitalize">{props.name}</h6>
+          {/* <h6 className="card-title text-capitalize">{props.id}</h6> */}
           <div className="card-text text-success">Rs. {props.price}.00</div>
           <small className="text-muted">{props.tags}</small>
           {/* <small className="text-muted">{props.imageurl}</small> */}

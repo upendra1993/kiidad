@@ -18,6 +18,7 @@ class SignInView extends Component {
                 localStorage.setItem('token', token);
                 toast.success("login successful !");
                 this.props.history.push('/');
+                window.location.reload(false);
             } else {
                 alert("authentication failed try again");
             }
@@ -62,7 +63,7 @@ class SignInView extends Component {
                         </Link>
                     </div>
                     <div className="col-md-6 p-3">
-                        <h4 className="text-center">Sign In</h4>
+                        <h4 className="text-center">Sign In </h4>
                         <SignInForm onSubmit={this.onSubmit}/>
                     </div>
                 </div>

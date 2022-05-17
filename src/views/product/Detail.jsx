@@ -443,7 +443,7 @@ class ProductDetailView extends Component {
             </div>
           </div>
           <div className="col-md-4">
-            <CardFeaturedProduct data={data.products} />
+            {/* <CardFeaturedProduct data={data.products} /> */}
             
           </div>
         </div>

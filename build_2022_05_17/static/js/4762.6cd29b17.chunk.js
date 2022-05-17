@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkkiidad=self.webpackChunkkiidad||[]).push([[4762],{4762:function(e,a,r){r.r(a);var s=r(2791);a.default=function(e){return s.createElement("div",{className:"progress ".concat(e.className),style:{height:1}},s.createElement("div",{className:"progress-bar",role:"progressbar",style:{width:"25%"},"aria-valuenow":25,"aria-valuemin":0,"aria-valuemax":100}))}}}]);
+//# sourceMappingURL=4762.6cd29b17.chunk.js.map

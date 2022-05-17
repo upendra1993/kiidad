@@ -18,20 +18,14 @@ import axios from "../helpers/axios";
 
 const Header = () => {
   const [CartItems, SetcartItems] = useState([]);
-  const userName = {}
-
+  const [Username,SetUsername] = useState(null);
   async function onAuthcheck(){
-    
     const promise = axios.get('get_user');
     promise.then(res => {
     const auth_Details = res.data.user;
     let authName = auth_Details.name;
-    userName = authName;
-    return authName;
-    // let authName = auth_Details.name;
-     console.log(authName);
+    SetUsername(authName);
     });
-    
   }
 
  
@@ -39,7 +33,7 @@ const Header = () => {
   
   return (
     <React.Fragment>
-      <header className="p-3 border-bottom bg-light">
+      <header className="p-3 border-bottom bg-light" onLoad={onAuthcheck}>
         <div className="container-fluid">
           <div className="row g-3">
             <div className="col-md-4 text-right main-logo">
@@ -64,12 +58,11 @@ const Header = () => {
                 <Link to="/cart" className="btn btn-primary">
                   <IconCart3 className="i-va" />
                   <div className="position-absolute top-0 left-100 translate-middle badge bg-danger rounded-circle">
-                  Test
+                  {/* 2 */}
                   </div>
                 </Link>
               </div>
-              <button className="auth" on onClick={onAuthcheck}>On Authcheck</button>
-              <div className=""><h2>{userName}</h2></div>
+              
               <div className="btn-group">
                 <button
                   type="button"
@@ -78,9 +71,10 @@ const Header = () => {
                   aria-expanded="false"
                   aria-label="Profile"
                 >
-                  
+                
                   <FontAwesomeIcon icon={faUser} className="text-light" />
                 </button>
+                <div className=""><h6>{Username}</h6></div>
                 <ul className="dropdown-menu">
                   <li>
                     <Link className="dropdown-item" to="/account/profile">
