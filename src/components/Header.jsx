@@ -13,9 +13,29 @@ import { ReactComponent as IconBellFill } from "bootstrap-icons/icons/bell-fill.
 import { ReactComponent as IconInfoCircleFill } from "bootstrap-icons/icons/info-circle-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import axios from "../helpers/axios";
+
 
 const Header = () => {
-  const [CartItems, SetcartItems] = useState([]) ;
+  const [CartItems, SetcartItems] = useState([]);
+  const userName = {}
+
+  async function onAuthcheck(){
+    
+    const promise = axios.get('get_user');
+    promise.then(res => {
+    const auth_Details = res.data.user;
+    let authName = auth_Details.name;
+    userName = authName;
+    return authName;
+    // let authName = auth_Details.name;
+     console.log(authName);
+    });
+    
+  }
+
+ 
+  
   
   return (
     <React.Fragment>
@@ -44,10 +64,12 @@ const Header = () => {
                 <Link to="/cart" className="btn btn-primary">
                   <IconCart3 className="i-va" />
                   <div className="position-absolute top-0 left-100 translate-middle badge bg-danger rounded-circle">
-                    2
+                  Test
                   </div>
                 </Link>
               </div>
+              <button className="auth" on onClick={onAuthcheck}>On Authcheck</button>
+              <div className=""><h2>{userName}</h2></div>
               <div className="btn-group">
                 <button
                   type="button"
@@ -56,6 +78,7 @@ const Header = () => {
                   aria-expanded="false"
                   aria-label="Profile"
                 >
+                  
                   <FontAwesomeIcon icon={faUser} className="text-light" />
                 </button>
                 <ul className="dropdown-menu">
