@@ -5,15 +5,20 @@ import axios from "../../helpers/axios";
 
 const SignInForm = lazy(() => import("../../components/account/SignInForm"));
 
+
 class SignInView extends Component {
+
+    
     onSubmit = async (values) => {
         try {
             let result = await axios.post('login', values);
+            // console.log(result);
             if(result.data.success) {
                 let token = result.data.token;
                 localStorage.setItem('token', token);
                 toast.success("login successful !");
                 this.props.history.push('/');
+                window.location.reload(false);
             } else {
                 alert("authentication failed try again");
             }
@@ -58,7 +63,7 @@ class SignInView extends Component {
                         </Link>
                     </div>
                     <div className="col-md-6 p-3">
-                        <h4 className="text-center">Sign In</h4>
+                        <h4 className="text-center">Sign In </h4>
                         <SignInForm onSubmit={this.onSubmit}/>
                     </div>
                 </div>

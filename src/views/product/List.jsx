@@ -60,7 +60,7 @@ class ProductListView extends Component{
   };
 
   componentDidMount(){
-    axios.get('http://dev.kiidad.com/api/products/get-all')
+    axios.get('http://dev.kiidad.com/api/products/get-all-available')
     .then(res =>{
       const currentProducts = res.data;
       this.setState({ currentProducts })

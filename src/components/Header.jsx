@@ -13,13 +13,44 @@ import { ReactComponent as IconBellFill } from "bootstrap-icons/icons/bell-fill.
 import { ReactComponent as IconInfoCircleFill } from "bootstrap-icons/icons/info-circle-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import axios from "../helpers/axios";
+
 
 const Header = () => {
-  const [CartItems, SetcartItems] = useState([]) ;
+  const [CartItems, SetcartItems] = useState([]);
+  const [Username,SetUsername] = useState('null');
+  let comp = '';
+
+  async function onAuthcheck(){
+
+    try{
+    const promise = axios.get('get_user');
+    promise.then(res => {
+    const auth_Details = res.data.user;
+      let authName = auth_Details.name;
+      SetUsername(authName);
+    });
+    comp = <h1>logout</h1>
+
+    // if (Username == 'null'){
+    //   comp = <h1>logout</h1>
+  
+    // }else{
+    //   comp = <h1>{Username}</h1>
+    // }
+
+    }catch (e){
+      
+    }
+    // console.log(Username);
+   
+    
+    
+  }
   
   return (
     <React.Fragment>
-      <header className="p-3 border-bottom bg-light">
+      <header className="p-3 border-bottom bg-light" onLoad={onAuthcheck}>
         <div className="container-fluid">
           <div className="row g-3">
             <div className="col-md-4 text-right main-logo">
@@ -44,63 +75,61 @@ const Header = () => {
                 <Link to="/cart" className="btn btn-primary">
                   <IconCart3 className="i-va" />
                   <div className="position-absolute top-0 left-100 translate-middle badge bg-danger rounded-circle">
-                    2
+                  {/* 2 */}
                   </div>
                 </Link>
               </div>
+              
               <div className="btn-group">
-                <button
+               
+                
+                {Username === 'null' ? 
+               <React.Fragment>
+                 <button
                   type="button"
                   className="btn btn-secondary bg-black rounded-circle border mr-3 dropdown-toggle1"
                   data-toggle="dropdown"
                   aria-expanded="false"
                   aria-label="Profile"
                 >
-                  <FontAwesomeIcon icon={faUser} className="text-light" />
-                </button>
+                <FontAwesomeIcon icon={faUser} className="text-light" />
+                </button> 
+                <ul className="dropdown-menu">
+                  <li className="dropdown-item">
+                  <IconPersonBadgeFill />  <Link to="/account/signin"> Sign In</Link>
+                  </li>
+                  <li className="dropdown-item">
+                  <IconPersonBadgeFill />  <Link to="/account/signup"> Sign Up</Link>
+                  </li>
+                </ul>
+              </React.Fragment>
+                : 
+                <React.Fragment>
+                <button
+                 type="button"
+                 className="btn btn-secondary bg-black rounded-circle border dropdown-toggle1"
+                 data-toggle="dropdown"
+                 aria-expanded="false"
+                 aria-label="Profile"
+               >
+               <FontAwesomeIcon icon={faUser} className="text-light" />
+               
+               </button>
+               <h6 className="mt-2 ml-1"> {Username}</h6>
                 <ul className="dropdown-menu">
                   <li>
                     <Link className="dropdown-item" to="/account/profile">
                       <IconPersonBadgeFill /> My Profile
                     </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/star/zone">
-                      <IconStarFill className="text-warning" /> Star Zone
+                    <Link className="dropdown-item" to="/account/profile">
+                      <IconPersonBadgeFill /> LogOut
                     </Link>
                   </li>
-                  <li>
-                    <Link className="dropdown-item" to="/account/orders">
-                      <IconListCheck className="text-primary" /> Orders
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/account/wishlist">
-                      <IconHeartFill className="text-danger" /> Wishlist
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/account/notification">
-                      <IconBellFill className="text-primary" /> Notification
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/support">
-                      <IconInfoCircleFill className="text-success" /> Support
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  {/* <li>
-                    <Link className="dropdown-item" to="/">
-                      <IconDoorClosedFill className="text-danger" /> Logout
-                    </Link>
-                  </li> */}
                 </ul>
+                </React.Fragment>
+                }
+                
+                
               </div>
              
               {/* <Link to="/account/signin">Sign In</Link> |{" "}

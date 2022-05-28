@@ -56,9 +56,9 @@ class MyProfileView extends Component {
            <KiidadAmount />
             <ChangePasswordForm onSubmit={this.onSubmitChangePassword} />
             <br></br>
-            <SettingForm />
+            {/* <SettingForm /> */}
             <br></br>
-            <CardListForm />
+            {/* <CardListForm /> */}
           </div>
         </div>
       </div>

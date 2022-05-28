@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkkiidad=self.webpackChunkkiidad||[]).push([[1648],{1648:function(e,a,n){n.r(a);var t=n(2791),c=n(1523);a.default=function(e){return t.createElement("div",{className:"card shadow-sm ".concat(e.className)},t.createElement("div",{className:"card-body text-center"},t.createElement("h5",{className:"card-title"},"Sign in for your best experience"),t.createElement(c.rU,{to:"account/signin",className:"btn btn-warning"},"Sign in securely")))}}}]);
+//# sourceMappingURL=1648.6ac9ae8c.chunk.js.map
