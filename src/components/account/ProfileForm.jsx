@@ -9,7 +9,7 @@ import {
   minLengthMobileNo,
   digit,
   name,
-  email,
+  email
 } from "../../helpers/validation";
 import { ReactComponent as IconPersonFill } from "bootstrap-icons/icons/person-fill.svg";
 import { ReactComponent as IconPhoneFill } from "bootstrap-icons/icons/phone-fill.svg";
@@ -17,6 +17,8 @@ import { ReactComponent as IconEnvelop } from "bootstrap-icons/icons/envelope.sv
 import { ReactComponent as IconGeoAlt } from "bootstrap-icons/icons/geo-alt.svg";
 import { ReactComponent as IconCalendarEvent } from "bootstrap-icons/icons/calendar-event.svg";
 import { ReactComponent as IconPersonSquareFill } from "bootstrap-icons/icons/person-lines-fill.svg";
+
+
 
 const ProfileForm = (props) => {
   const {
@@ -26,7 +28,11 @@ const ProfileForm = (props) => {
     submitFailed,
     onImageChange,
     imagePreview,
+    userEmail,
+    userName
   } = props;
+  
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -36,6 +42,7 @@ const ProfileForm = (props) => {
       <div className="card border-primary">
         <h6 className="card-header">
           <IconPersonSquareFill /> Profile Detail
+         
         </h6>
         <img
           src={imagePreview ? imagePreview : "../../images/NO_IMG.png"}
@@ -61,7 +68,7 @@ const ProfileForm = (props) => {
               name="name"
               type="text"
               component={renderFormGroupField}
-              placeholder="Your name"
+              placeholder= {userName}
               icon={IconPersonFill}
               validate={[required, name]}
               required={true}
@@ -85,7 +92,7 @@ const ProfileForm = (props) => {
               name="email"
               type="email"
               component={renderFormGroupField}
-              placeholder="Your email"
+              placeholder={userEmail}
               icon={IconEnvelop}
               validate={[required, email]}
               required={true}

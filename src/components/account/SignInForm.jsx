@@ -60,18 +60,18 @@ const SignInForm = (props) => {
         Log In
       </button>
       <Link className="float-left" to="/account/signup" title="Sign Up">
-        Create your account
+        Create your account 
       </Link>
       <Link
         className="float-right"
         to="/account/forgotpassword"
         title="Forgot Password"
       >
-        Forgot password?
+        {/* Forgot password? */}
       </Link>
       <div className="clearfix"></div>
       <hr></hr>
-      <div className="row">
+      {/* <div className="row">
         <div className="col- text-center">
           <p className="text-muted small">Or you can join with</p>
         </div>
@@ -86,7 +86,7 @@ const SignInForm = (props) => {
             <FontAwesomeIcon icon={faGoogle} className="mx-1" />
           </Link>
         </div>
-      </div>
+      </div> */}
     </form>
   );
 };

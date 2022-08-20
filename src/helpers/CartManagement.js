@@ -1,4 +1,4 @@
-let addToCart = (id, qty, unitPrice) => {
+let addToCart = (id, qty, unitPrice, size) => {
     let cart = JSON.parse(localStorage.getItem("cart"))
     cart = createCartIfNotExists(cart);
     let itemExists = cart.items.some((item) => item.id === id)
@@ -11,7 +11,8 @@ let addToCart = (id, qty, unitPrice) => {
         let item = {
             id: id,
             qty: qty,
-            unit: unitPrice
+            unit: unitPrice,
+            size: size
         }
         cart.items.push(item)
     }

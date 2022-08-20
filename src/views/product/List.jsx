@@ -64,8 +64,9 @@ class ProductListView extends Component{
     .then(res =>{
       const currentProducts = res.data;
       this.setState({ currentProducts })
-      console.log(currentProducts);
+      // console.log(currentProducts);
     })
+    
   }
 
   render() {

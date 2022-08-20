@@ -36,17 +36,37 @@ const ProductDetails = '';
 
 
 
-const handleAddToCart = (id, qty, unitPrice) => {
+const handleAddToCart = (id, qty, unitPrice, size) => {
   // let cart = JSON.parse(localStorage.getItem("cart"))
-  addToCart(id, qty, unitPrice)
-  toast.success('Tshirt have been added your cart')
+  
+  if(size != ''){
+    addToCart(id, qty, unitPrice, size);
+    toast.success('Tshirt have been added your cart');
+  }else{
+    toast.error('Please Select Tshirt Size');
+  }
 }
 
 class ProductDetailView extends Component {
 
+  // constructor(props) {
+  //   super();
+  //   this.state = {
+  //     name: "React"
+  //   };
+  //   this.onsizeSet = this.onsizeSet.bind(this);
+  // }
+  // onsizeSet(e){
+  //   confirm.log("test")
+  // }
+
   handleAdd = async (id, price) => {
     addToCart(id, 1, price)
     await this.loadCartItems();
+  }
+
+  handleSize = async (Product_size) => {
+    await this.onsizeSet()
   }
   
   handleReduce = async (id) => {
@@ -65,7 +85,9 @@ class ProductDetailView extends Component {
       Product_id:{},
       Product_details:[],
       cartitemsload:[],
-      Cart_qty:1
+      Cart_qty:1,
+      Product_size : 0
+
     }
     
   }
@@ -95,6 +117,7 @@ class ProductDetailView extends Component {
     })
     
   
+    
 
     if(this.state.Product_details.availability = 1){
       availability_status = 'In stock';
@@ -106,15 +129,16 @@ class ProductDetailView extends Component {
     
   }
 
-
+  onsizeSet = async (e) => {
+    const Product_size = e.target.value;
+    this.setState({Product_size});
+  }
 
   loadCartItems = async () =>{
-   
+    // console.log(size);
     let cartitems = loadCart();
     let cartitemsload = cartitems.items;
     // console.log(cartitemsload);
-
-
     for(const cartitemsloaditems of cartitemsload ){
       // console.log(cartitemsloaditems);
       if(cartitemsloaditems.id == this.state.Product_details.id){
@@ -187,13 +211,14 @@ class ProductDetailView extends Component {
                   <dt className="col-sm-3">Sold by</dt>
                   <dd className="col-sm-9">Authorised Store</dd>
                   <dt className="col-sm-3">Size</dt>
-                  <dd className="col-sm-9">
+                  <dd className="col-sm-9" onChange={this.onsizeSet}>
                     <div className="form-check form-check-inline">
                       <input
                         className="form-check-input"
                         type="radio"
                         name="size"
                         id="sizes"
+                        value="S"
                        
                       />
                       <label className="form-check-label" htmlFor="sizes">
@@ -206,6 +231,7 @@ class ProductDetailView extends Component {
                         type="radio"
                         name="size"
                         id="sizem"
+                        value="M"
                         
                       />
                       <label className="form-check-label" htmlFor="sizem">
@@ -218,6 +244,7 @@ class ProductDetailView extends Component {
                         type="radio"
                         name="size"
                         id="sizel"
+                        value="L"
                       />
                       <label className="form-check-label" htmlFor="sizel">
                         L
@@ -229,6 +256,7 @@ class ProductDetailView extends Component {
                         type="radio"
                         name="size"
                         id="sizexl"
+                        value="XL"
                       />
                       <label className="form-check-label" htmlFor="sizexl">
                         XL
@@ -240,6 +268,7 @@ class ProductDetailView extends Component {
                         type="radio"
                         name="size"
                         id="sizexxl"
+                        value="XXL"
                       />
                       <label className="form-check-label" htmlFor="sizexxl">
                         XXL
@@ -297,8 +326,9 @@ class ProductDetailView extends Component {
                     type="button"
                     className="btn btn-sm btn-primary mr-2"
                     title="Add to cart"
-                    onClick={() => handleAddToCart(this.state.Product_details.id, 1, this.state.Product_details.originPrice)}
+                    onClick={() => handleAddToCart(this.state.Product_details.id, 1, this.state.Product_details.originPrice, this.state.Product_size)}
                   >
+                    
                     <FontAwesomeIcon icon={faCartPlus} /> Add to cart
                   </button>
                   {/* <button

@@ -50,6 +50,7 @@ class CartView extends Component {
     }
 
     hadleRemove = async (id) =>{
+        console.log('deleting item')
         removeItem(id);
         await this.loadCartItems();
     }
@@ -58,6 +59,15 @@ class CartView extends Component {
     async componentDidMount() {
         await this.loadCartItems()
     }
+
+    // async componentDidCatch(){
+    //     await this.handleSize()
+    // }
+
+    // handleSize = async () => {
+    //     const size = handleSize();
+    //     console.log(handleSize());
+    // }
 
     loadCartItems = async () => {
         const cartitemsload = loadCart();
@@ -86,7 +96,7 @@ class CartView extends Component {
         // console.log("state", finalItems);
     }
 
-    onSubmitApplyCouponCode = async (values) => {
+    onSubmitApplyCouponCode = async (values) => { 
         alert(JSON.stringify(values));
     };
 
@@ -182,7 +192,7 @@ class CartView extends Component {
                                                                 {cartitem.name}
                                                             </Link>
                                                             <p className="small text-muted">
-                                                                Size: XL, Color: blue, Brand: XYZ
+                                                                Size: {cartitem.size}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -230,7 +240,7 @@ class CartView extends Component {
                                                         <IconHeartFill className="i-va"/>
                                                     </button> */}
                                                     <button className="btn btn-sm btn-outline-danger"
-                                                    onClick={()=> this.hadleRemove(cartitem.id)}
+                                                    onClick={()=> this.clearCart(cartitem.id)}
                                                     >
                                                         <IconTrash className="i-va"/>
                                                         
@@ -243,13 +253,13 @@ class CartView extends Component {
                                 </div>
                                 <div className="card-footer">
 
-                                    {/* <Link to="/checkout" className="btn btn-primary float-right">
+                                   <Link to="/checkout" className="btn btn-primary float-right">
                                         Make Purchase <IconChevronRight className="i-va"/>
-                                    </Link> */}
-                                    <button type="submit" className="btn btn-primary float-right" onClick={this.hadleSetcartvalue}>Continue shopping</button>
-                                    {/* <Link to="/" className="btn btn-secondary">
+                                    </Link> 
+                                    {/* <button type="submit" className="btn btn-primary float-right" onClick={this.hadleSetcartvalue}>Continue shopping</button> */}
+                                   <Link to="/checkout" className="btn btn-secondary">
                                         <IconChevronLeft className="i-va"/> Continue shopping
-                                    </Link> */}
+                                    </Link> 
                                 </div>
                             </div>
                             <div className="alert alert-success mt-3">

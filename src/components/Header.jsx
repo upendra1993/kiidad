@@ -14,41 +14,47 @@ import { ReactComponent as IconInfoCircleFill } from "bootstrap-icons/icons/info
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import axios from "../helpers/axios";
+import toast from "react-hot-toast";
+
 
 
 const Header = () => {
   const [CartItems, SetcartItems] = useState([]);
   const [Username,SetUsername] = useState('null');
-  let comp = '';
+  const [Authdetails, SetAuthdetails] = useState([]);
+
+  function userlogout() {
+    axios.post('logout');
+    window.localStorage.clear(); 
+    window.location.reload();
+    toast.success('Logout Successful');
+    
+  }
 
   async function onAuthcheck(){
 
     try{
     const promise = axios.get('get_user');
     promise.then(res => {
-    const auth_Details = res.data.user;
-      let authName = auth_Details.name;
-      SetUsername(authName);
+    let auth_Details = res.data.user;
+    let authName = auth_Details.name;
+    SetAuthdetails(auth_Details);
+    SetUsername(authName);
+    // console.log(authName);
     });
-    comp = <h1>logout</h1>
 
-    // if (Username == 'null'){
-    //   comp = <h1>logout</h1>
-  
-    // }else{
-    //   comp = <h1>{Username}</h1>
-    // }
+
 
     }catch (e){
       
     }
-    // console.log(Username);
    
-    
-    
   }
+
+ 
   
   return (
+    
     <React.Fragment>
       <header className="p-3 border-bottom bg-light" onLoad={onAuthcheck}>
         <div className="container-fluid">
@@ -95,11 +101,15 @@ const Header = () => {
                 <FontAwesomeIcon icon={faUser} className="text-light" />
                 </button> 
                 <ul className="dropdown-menu">
-                  <li className="dropdown-item">
-                  <IconPersonBadgeFill />  <Link to="/account/signin"> Sign In</Link>
+                  <li>
+                  <Link className="dropdown-item" to="/account/signin"> 
+                    <IconPersonBadgeFill /> Sign In
+                  </Link>
                   </li>
-                  <li className="dropdown-item">
-                  <IconPersonBadgeFill />  <Link to="/account/signup"> Sign Up</Link>
+                  <li>
+                    <Link className="dropdown-item" to="/account/signup"> 
+                    <IconPersonBadgeFill /> Sign Up
+                    </Link>
                   </li>
                 </ul>
               </React.Fragment>
@@ -116,12 +126,20 @@ const Header = () => {
                
                </button>
                <h6 className="mt-2 ml-1"> {Username}</h6>
+               {/* <h6 className="mt-2 ml-1"> {Authdetails.email}</h6> */}
                 <ul className="dropdown-menu">
                   <li>
-                    <Link className="dropdown-item" to="/account/profile">
+                    <Link  
+                    className="dropdown-item" 
+                    to= {{
+                      pathname:'/account/profile',
+                      
+                    }}
+                    
+                    >
                       <IconPersonBadgeFill /> My Profile
                     </Link>
-                    <Link className="dropdown-item" to="/account/profile">
+                    <Link className="dropdown-item" to="/account/profile" onClick={userlogout}>
                       <IconPersonBadgeFill /> LogOut
                     </Link>
                   </li>
@@ -140,5 +158,5 @@ const Header = () => {
       </header>
     </React.Fragment>
   );
-};
+}
 export default Header;

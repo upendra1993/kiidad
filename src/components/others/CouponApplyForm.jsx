@@ -9,7 +9,7 @@ import {
 const CouponApplyForm = (props) => {
   const { handleSubmit, submitting, onSubmit, submitFailed } = props;
   return (
-    <form
+    <form 
       onSubmit={handleSubmit(onSubmit)}
       className={`needs-validation ${submitFailed ? "was-validated" : ""}`}
       noValidate

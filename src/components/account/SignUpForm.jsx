@@ -26,7 +26,7 @@ const SignUpForm = (props) => {
   const { handleSubmit, submitting, onSubmit, submitFailed } = props;
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)} 
       className={`needs-validation ${submitFailed ? "was-validated" : ""}`}
       noValidate
     >
@@ -55,16 +55,13 @@ const SignUpForm = (props) => {
         </div>
       </div>
       <Field
-        name="mobileNo"
-        type="number"
-        label="Mobile no"
+        name="email"
+        type="email"
+        label="Email"
         component={renderFormGroupField}
-        placeholder="Mobile no without country code"
+        placeholder="Enter Email"
         icon={IconPhoneFill}
-        validate={[required, maxLengthMobileNo, minLengthMobileNo, digit]}
         required={true}
-        max="999999999999999"
-        min="9999"
         className="mb-3"
       />
       <Field
@@ -83,7 +80,7 @@ const SignUpForm = (props) => {
       <button
         type="submit"
         className="btn btn-primary btn-block mb-3"
-        disabled={submitting}
+        // disabled={submitting}
       >
         Create
       </button>
@@ -95,7 +92,7 @@ const SignUpForm = (props) => {
         to="/account/forgotpassword"
         title="Forgot Password"
       >
-        Forgot password?
+        {/* Forgot password? */}
       </Link>
       <div className="clearfix"></div>
       <hr></hr>

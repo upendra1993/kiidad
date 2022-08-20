@@ -92,14 +92,14 @@ const CardProductList = (props) => {
           )}
 
           <div className="btn-group btn-block" role="group">
-            <button 
+            {/* <button 
               type="button"
               className="btn btn-sm btn-primary"
               onClick={() => handleAddToCart(product.id, 1, product.originPrice)}
               title="Add to cart"
             >
               <FontAwesomeIcon icon={faCartPlus} />
-            </button>
+            </button> */}
             {/* <button
               type="button"
               className="btn btn-sm btn-outline-secondary"
